@@ -1,0 +1,27 @@
+
+https://code.earthengine.google.com/8a2f072e458bca5b31246a48297626fe
+
+// region geom
+var geom = ee.Geometry.Rectangle([-117.190616, -96.554411, 49.001390, 44.26879]);
+
+var nlcd = ee.Image("USGS/NLCD/NLCD2011");
+
+//create a mask for 'barren land'
+
+var barren_land = nlcd.select('landcover').eq(31);
+
+var nlcd_2011_barren_land = nlcd.updateMask(barren_land);
+
+Map.addLayer(nlcd_2011_barren_land, {}, 'nlcd_bl');
+
+
+// now export to drive, cloud, etc.
+// Export the image, specifying scale and region.
+Export.image.toDrive({
+  image: nlcd_2011_barren_land,
+  description: 'nlcd_wcc',
+  scale: 30,
+  crs: 'EPSG:5070',
+  region: geom,
+  maxPixels: 1e12
+});
