@@ -30,3 +30,17 @@ nlcd_2011_ras <- ee_as_raster(nlcd_2011_barren_land,
                               via = "gcs",
                               lazy = TRUE,
                               timePrefix = F)
+
+
+nlcd1 <- raster::stack('images/nlcd_wcc1.tif')
+nlcd2 <- raster::stack('images/nlcd_wcc2.tif')
+
+# this gets the 'landcover band [[1]]' and then mosaics together
+final_nlcd <- raster::mosaic(nlcd1[[1]], nlcd2[[1]], fun = min)
+
+#now reclassify so everything that's not 'barren' is NA and 'barren' is 1
+final_nlcd_rc <- raster::reclassify(final_nlcd, c(0,30, NA, 30, 31, 1))
+
+#then write a final tiff
+raster::writeRaster(final_nlcd_rc, 'images/final_nlcd.tif', overwrite = TRUE)
+
