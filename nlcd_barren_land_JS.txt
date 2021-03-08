@@ -1,8 +1,8 @@
 
-https://code.earthengine.google.com/8a2f072e458bca5b31246a48297626fe
+https://code.earthengine.google.com/142ae80d41e626299d272b2551146479
 
 // region geom
-var geom = ee.Geometry.Rectangle([-117.190616, -96.554411, 49.001390, 44.26879]);
+var geom = ee.Geometry.Rectangle([-117.190616, 49.001390, -96.554411,  44.26879]);
 
 var nlcd = ee.Image("USGS/NLCD/NLCD2011");
 
